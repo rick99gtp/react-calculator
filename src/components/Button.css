@@ -1,0 +1,15 @@
+.btn {
+    border: 1px solid #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn:nth-child(20) {
+    grid-column: 1/3;
+}
+
+.btn:nth-child(15) {
+    grid-row: 3/6;
+    grid-column: 5;
+}

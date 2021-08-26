@@ -1,0 +1,12 @@
+.calculator-container {
+    background-color: gray;
+    padding: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+}
