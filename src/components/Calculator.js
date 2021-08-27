@@ -13,10 +13,11 @@ const Calculator = () => {
   const changePrevValue = val => setPrevValue(val);
   const changeCurValue = val => setCurValue(val);
   const changeCurOperand = val => setCurOperand(val);
-  const changeDisplay = () => setDisplay(`${prevValue} ${curOperand} ${curValue}`);
+  const changeDisplay = () => setDisplay(`${prevValue}${curOperand}${curValue}`);
 
   useEffect(() => {
     changeDisplay();
+    console.log('changed');
   },[prevValue, curValue, curOperand]);
 
   return (
@@ -26,6 +27,7 @@ const Calculator = () => {
         changePrevValue={changePrevValue}
         changeCurValue={changeCurValue}
         changeCurOperand={changeCurOperand}
+        display={display}
       />
     </div>
   );

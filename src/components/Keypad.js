@@ -1,7 +1,7 @@
 import "./Keypad.css";
 import Button from "./Button";
 
-const Keypad = () => {
+const Keypad = (props) => {
   const buttonArray = [
     { text: "MC", buttonType: "memory" },
     { text: "MR", buttonType: "memory" },
@@ -27,10 +27,36 @@ const Keypad = () => {
     { text: "+", buttonType: "operand" },
   ];
 
-  const getValue = (e) => console.log(e.target.dataset.attr);
+  const buttonHandler = (e) => {
+      console.log(e.target.innerText);
+    switch (e.target.dataset.attr) {
+      case "number":
+        numberHandler(e.target.innerText);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const numberHandler = (val) => {
+      console.log(props.display);
+    if (props.display === "0") {
+        console.log('zero');
+      // replace number
+      props.changePrevValue(val);
+    } else {
+      // add to end of display value
+      props.changePrevValue(props.display + val);
+    }
+  };
 
   const buttons = buttonArray.map((btn) => (
-    <Button data_attr={btn.buttonType} key={btn.text} value={btn.text} />
+    <Button
+      data_attr={btn.buttonType}
+      key={btn.text}
+      value={btn.text}
+      getValue={buttonHandler}
+    />
   ));
 
   return <div className="keypad">{buttons}</div>;
