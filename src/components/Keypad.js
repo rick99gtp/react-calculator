@@ -28,20 +28,30 @@ const Keypad = (props) => {
   ];
 
   const buttonHandler = (e) => {
-      console.log(e.target.innerText);
     switch (e.target.dataset.attr) {
       case "number":
         numberHandler(e.target.innerText);
+        break;
+      case "decimal":
+        decimalHandler();
         break;
       default:
         break;
     }
   };
 
+  const decimalHandler = () => {
+    if (props.display.includes(".")) {
+      return;
+    }
+
+    props.changePrevValue(props.display + ".");
+  };
+
   const numberHandler = (val) => {
-      console.log(props.display);
+    console.log(props.display);
     if (props.display === "0") {
-        console.log('zero');
+      console.log("zero");
       // replace number
       props.changePrevValue(val);
     } else {
