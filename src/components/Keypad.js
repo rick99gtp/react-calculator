@@ -27,58 +27,20 @@ const Keypad = (props) => {
     { text: "+", buttonType: "operand" },
   ];
 
-  const clearHandler = () => {
-    props.changePrevValue("0");
-    props.changeCurValue("");
-    props.changeCurOperand("");
-  };
-
   const buttonHandler = (e) => {
     switch (e.target.dataset.attr) {
-      case "number":
-        numberHandler(e.target.innerText);
-        break;
       case "decimal":
-        decimalHandler();
+        props.decimal();
         break;
       case "clear":
-        clearHandler();
+        props.clear();
         break;
       case "memory":
-        memoryHandler(e.target.innerText);
+        props.memoryHandler(e.target.innerText);
         break;
       default:
+        props.numberHandler(e.target.innerText);
         break;
-    }
-  };
-
-  const memoryHandler = (val) => {
-    if(val==='MC') {
-        props.clearMemoryNumber();
-    }
-    else if(val === 'MS') {
-        props.saveMemoryNumber(props.display);
-    }
-    else if(val === 'MR') {
-        props.changePrevValue(props.memoryNumber);
-    }
-  };
-
-  const decimalHandler = () => {
-    if (props.display.includes(".")) {
-      return;
-    }
-
-    props.changePrevValue(props.display + ".");
-  };
-
-  const numberHandler = (val) => {
-    if (props.display === "0") {
-      // replace number
-      props.changePrevValue(val);
-    } else {
-      // add to end of display value
-      props.changePrevValue(props.display + val);
     }
   };
 

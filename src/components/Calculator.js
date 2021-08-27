@@ -7,8 +7,8 @@ import { useEffect, useState } from "react";
 const Calculator = () => {
 
   const [display, setDisplay] = useState("0");
-  const [prevValue, setPrevValue] = useState("0");
-  const [curValue, setCurValue] = useState("");
+  const [prevValue, setPrevValue] = useState("");
+  const [curValue, setCurValue] = useState("0");
   const [curOperand, setCurOperand] = useState("");
 
   const [memoryNumber, setMemoryNumber] = useState('');
@@ -16,14 +16,46 @@ const Calculator = () => {
   const changePrevValue = val => setPrevValue(val);
   const changeCurValue = val => setCurValue(val);
   const changeCurOperand = val => setCurOperand(val);
-  const changeDisplay = () => setDisplay(`${prevValue}${curOperand}${curValue}`);
-  const clearMemoryNumber = () => setMemoryNumber('');
-  const saveMemoryNumber = val => setMemoryNumber(val);
+  const changeDisplay = () => setDisplay(curValue);
+
+  const clearHandler = () => {
+    setPrevValue("");
+    setCurValue("0");
+    setCurOperand("");
+  };
+
+  const decimalHandler = () => {
+    if (display.includes(".")) {
+        return;
+      }
+  
+      setCurValue(curValue + ".");
+  };
+
+  const numberHandler = (val) => {
+    if (display === "0") {
+      // replace number
+      setPrevValue("0");
+      setCurValue(val);
+    } else {
+      // add to end of curValue
+      setCurValue(curValue + val);
+    }
+  };
+
+  const memoryHandler = (val) => {
+    if (val === "MC") {
+      setMemoryNumber('');
+    } else if (val === "MS") {
+      setMemoryNumber(curValue);
+    } else if (val === "MR") {
+      setCurValue(memoryNumber);
+    }
+  };
 
   useEffect(() => {
     changeDisplay();
-    console.log('changed');
-  },[prevValue, curValue, curOperand]);
+  },[curValue]);
 
   useEffect(() => {
     console.log(memoryNumber);
@@ -36,10 +68,11 @@ const Calculator = () => {
         changePrevValue={changePrevValue}
         changeCurValue={changeCurValue}
         changeCurOperand={changeCurOperand}
+        clear={clearHandler}
+        decimal={decimalHandler}
+        numberHandler={numberHandler}
+        memoryHandler={memoryHandler}
         display={display}
-        clearMemoryNumber={clearMemoryNumber}
-        saveMemoryNumber={saveMemoryNumber}
-        memoryNumber={memoryNumber}
       />
     </div>
   );
