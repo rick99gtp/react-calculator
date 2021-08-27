@@ -27,6 +27,12 @@ const Keypad = (props) => {
     { text: "+", buttonType: "operand" },
   ];
 
+  const clearHandler = () => {
+    props.changePrevValue("0");
+    props.changeCurValue("");
+    props.changeCurOperand("");
+  };
+
   const buttonHandler = (e) => {
     switch (e.target.dataset.attr) {
       case "number":
@@ -35,6 +41,8 @@ const Keypad = (props) => {
       case "decimal":
         decimalHandler();
         break;
+      case "clear":
+        clearHandler();
       default:
         break;
     }
