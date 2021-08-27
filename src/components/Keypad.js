@@ -43,8 +43,24 @@ const Keypad = (props) => {
         break;
       case "clear":
         clearHandler();
+        break;
+      case "memory":
+        memoryHandler(e.target.innerText);
+        break;
       default:
         break;
+    }
+  };
+
+  const memoryHandler = (val) => {
+    if(val==='MC') {
+        props.clearMemoryNumber();
+    }
+    else if(val === 'MS') {
+        props.saveMemoryNumber(props.display);
+    }
+    else if(val === 'MR') {
+        props.changePrevValue(props.memoryNumber);
     }
   };
 
@@ -57,9 +73,7 @@ const Keypad = (props) => {
   };
 
   const numberHandler = (val) => {
-    console.log(props.display);
     if (props.display === "0") {
-      console.log("zero");
       // replace number
       props.changePrevValue(val);
     } else {
