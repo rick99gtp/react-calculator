@@ -1,8 +1,9 @@
 import './Button.css';
 
 const Button = (props) => {
+
     return (
-        <div className='btn' name={props.value}>
+        <div className='btn' data-attr={props.data_attr} onClick={props.getValue}>
             {props.value}
         </div>
     )
