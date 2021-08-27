@@ -10,7 +10,7 @@ const Calculator = () => {
   const [curValue, setCurValue] = useState("0");
   const [curOperand, setCurOperand] = useState("");
   const [memoryToggleVisible, setMemoryToggleVisible] = useState(false);
-  const [memoryNumber, setMemoryNumber] = useState("");
+  const [memoryNumber, setMemoryNumber] = useState("0");
 
   const changePrevValue = (val) => setPrevValue(val);
   const changeCurValue = (val) => setCurValue(val);
@@ -44,13 +44,16 @@ const Calculator = () => {
 
   const memoryHandler = (val) => {
     if (val === "MC") {
-      setMemoryNumber("");
+      setMemoryNumber(0);
       setMemoryToggleVisible(false);
     } else if (val === "MS") {
       setMemoryNumber(curValue);
       setMemoryToggleVisible(true);
     } else if (val === "MR") {
       setCurValue(memoryNumber);
+    }
+    else if(val === "M+") {
+        setMemoryNumber(+memoryNumber + +curValue);
     }
   };
 
