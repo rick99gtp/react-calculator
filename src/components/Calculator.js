@@ -5,17 +5,16 @@ import Keypad from "./Keypad";
 import { useEffect, useState } from "react";
 
 const Calculator = () => {
-
   const [display, setDisplay] = useState("0");
   const [prevValue, setPrevValue] = useState("");
   const [curValue, setCurValue] = useState("0");
   const [curOperand, setCurOperand] = useState("");
+  const [memoryToggleVisible, setMemoryToggleVisible] = useState(false);
+  const [memoryNumber, setMemoryNumber] = useState("");
 
-  const [memoryNumber, setMemoryNumber] = useState('');
-
-  const changePrevValue = val => setPrevValue(val);
-  const changeCurValue = val => setCurValue(val);
-  const changeCurOperand = val => setCurOperand(val);
+  const changePrevValue = (val) => setPrevValue(val);
+  const changeCurValue = (val) => setCurValue(val);
+  const changeCurOperand = (val) => setCurOperand(val);
   const changeDisplay = () => setDisplay(curValue);
 
   const clearHandler = () => {
@@ -26,10 +25,10 @@ const Calculator = () => {
 
   const decimalHandler = () => {
     if (display.includes(".")) {
-        return;
-      }
-  
-      setCurValue(curValue + ".");
+      return;
+    }
+
+    setCurValue(curValue + ".");
   };
 
   const numberHandler = (val) => {
@@ -45,9 +44,11 @@ const Calculator = () => {
 
   const memoryHandler = (val) => {
     if (val === "MC") {
-      setMemoryNumber('');
+      setMemoryNumber("");
+      setMemoryToggleVisible(false);
     } else if (val === "MS") {
       setMemoryNumber(curValue);
+      setMemoryToggleVisible(true);
     } else if (val === "MR") {
       setCurValue(memoryNumber);
     }
@@ -55,15 +56,11 @@ const Calculator = () => {
 
   useEffect(() => {
     changeDisplay();
-  },[curValue]);
-
-  useEffect(() => {
-    console.log(memoryNumber);
-  },[memoryNumber]);
+  }, [curValue]);
 
   return (
     <div className="calculator-container">
-      <Display display={display} />
+      <Display memoryToggle={memoryToggleVisible} display={display} />
       <Keypad
         changePrevValue={changePrevValue}
         changeCurValue={changeCurValue}
