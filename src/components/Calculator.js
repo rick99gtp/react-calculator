@@ -55,6 +55,9 @@ const Calculator = () => {
     else if(val === "M+") {
         setMemoryNumber(+memoryNumber + +curValue);
     }
+    else if(val === "M-") {
+        setMemoryNumber(+memoryNumber - +curValue);
+    }
   };
 
   useEffect(() => {
