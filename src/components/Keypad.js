@@ -17,7 +17,7 @@ const Keypad = (props) => {
     { text: "5", buttonType: "number" },
     { text: "6", buttonType: "number" },
     { text: "*", buttonType: "operand" },
-    { text: "=", buttonType: "calc" },
+    { text: "=", buttonType: "equals" },
     { text: "1", buttonType: "number" },
     { text: "2", buttonType: "number" },
     { text: "3", buttonType: "number" },
@@ -37,6 +37,12 @@ const Keypad = (props) => {
         break;
       case "memory":
         props.memoryHandler(e.target.innerText);
+        break;
+      case "operand":
+        props.operandHandler(e.target.innerText);
+        break;
+      case "equals":
+        props.equalsHandler(e.target.innerText);
         break;
       default:
         props.numberHandler(e.target.innerText);

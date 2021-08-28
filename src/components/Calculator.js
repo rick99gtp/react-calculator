@@ -12,10 +12,8 @@ const Calculator = () => {
   const [memoryToggleVisible, setMemoryToggleVisible] = useState(false);
   const [memoryNumber, setMemoryNumber] = useState("0");
 
-  const changePrevValue = (val) => setPrevValue(val);
-  const changeCurValue = (val) => setCurValue(val);
-  const changeCurOperand = (val) => setCurOperand(val);
-  const changeDisplay = () => setDisplay(curValue);
+  const changeDisplay = () =>
+    setDisplay(`${prevValue}${curOperand}${curValue}`);
 
   const clearHandler = () => {
     setPrevValue("");
@@ -24,7 +22,7 @@ const Calculator = () => {
   };
 
   const decimalHandler = () => {
-    if (display.includes(".")) {
+    if (curValue.includes(".")) {
       return;
     }
 
@@ -32,9 +30,8 @@ const Calculator = () => {
   };
 
   const numberHandler = (val) => {
-    if (display === "0") {
+    if (curValue === "0") {
       // replace number
-      setPrevValue("0");
       setCurValue(val);
     } else {
       // add to end of curValue
@@ -51,31 +48,70 @@ const Calculator = () => {
       setMemoryToggleVisible(true);
     } else if (val === "MR") {
       setCurValue(memoryNumber);
+    } else if (val === "M+") {
+      setMemoryNumber(+memoryNumber + +curValue);
+    } else if (val === "M-") {
+      setMemoryNumber(+memoryNumber - +curValue);
     }
-    else if(val === "M+") {
-        setMemoryNumber(+memoryNumber + +curValue);
-    }
-    else if(val === "M-") {
-        setMemoryNumber(+memoryNumber - +curValue);
+  };
+
+  const operandHandler = (val) => {
+      if(curOperand === "") {
+        setCurOperand(val);
+      }
+      else {
+          calculate();
+          setCurValue("");
+      }
+  };
+
+  const equalsHandler = () => {
+    calculate();
+    setCurValue("");
+    setCurOperand("");
+  };
+
+  const calculate = () => {
+    switch (curOperand) {
+      case "+":
+        setPrevValue(+prevValue + +curValue);
+        break;
+      case "-":
+        setPrevValue(+prevValue - +curValue);
+        break;
+      case "*":
+        setPrevValue(+prevValue * +curValue);
+        break;
+      case "/":
+        setPrevValue(+prevValue / +curValue);
+        break;
+      default:
+        return;
     }
   };
 
   useEffect(() => {
+    calculate();
+    if(curOperand !== "") {
+        setCurValue("");
+    }
+  }, [curOperand]);
+
+  useEffect(() => {
     changeDisplay();
-  }, [curValue]);
+  }, [curValue, prevValue, curOperand]);
 
   return (
     <div className="calculator-container">
       <Display memoryToggle={memoryToggleVisible} display={display} />
       <Keypad
-        changePrevValue={changePrevValue}
-        changeCurValue={changeCurValue}
-        changeCurOperand={changeCurOperand}
         clear={clearHandler}
         decimal={decimalHandler}
         numberHandler={numberHandler}
         memoryHandler={memoryHandler}
+        operandHandler={operandHandler}
         display={display}
+        equalsHandler={equalsHandler}
       />
     </div>
   );
