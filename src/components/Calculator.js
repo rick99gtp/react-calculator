@@ -5,7 +5,7 @@ import Keypad from "./Keypad";
 import { useEffect, useState } from "react";
 
 const Calculator = () => {
-  const [display, setDisplay] = useState("0");
+  const [display, setDisplay] = useState("");
   const [prevValue, setPrevValue] = useState("");
   const [curValue, setCurValue] = useState("0");
   const [curOperand, setCurOperand] = useState("");
@@ -22,11 +22,8 @@ const Calculator = () => {
   };
 
   const decimalHandler = () => {
-    if (curValue.includes(".")) {
-      return;
-    }
-
-    setCurValue(curValue + ".");
+    // if the current value does not include a decimal
+    if (!curValue.includes(".")) setCurValue(curValue + ".");
   };
 
   const numberHandler = (val) => {
@@ -39,13 +36,21 @@ const Calculator = () => {
     }
   };
 
+  const clearMemory = () => {
+    setMemoryNumber("0");
+    setMemoryToggleVisible(false);
+  }
+
+  const saveToMemory = () => {
+    setMemoryNumber(curValue);
+    setMemoryToggleVisible(true);
+  };
+
   const memoryHandler = (val) => {
     if (val === "MC") {
-      setMemoryNumber(0);
-      setMemoryToggleVisible(false);
+      clearMemory();
     } else if (val === "MS") {
-      setMemoryNumber(curValue);
-      setMemoryToggleVisible(true);
+      saveToMemory();
     } else if (val === "MR") {
       setCurValue(memoryNumber);
     } else if (val === "M+") {
@@ -56,50 +61,45 @@ const Calculator = () => {
   };
 
   const operandHandler = (val) => {
-    if (curOperand === "") {
-      setCurOperand(val);
-    } else {
-      calculate();
+    if(prevValue && curOperand && curValue) {
+      setPrevValue(calculate());
       setCurValue("");
+      setCurOperand(val);
+    }
+    else if (curOperand !== val) {
+      setCurOperand(val);
     }
   };
 
   const equalsHandler = () => {
-    if (curOperand !== "") {
-      calculate();
+    if (curOperand !== "" && curValue !== "") {
+      setCurValue(calculate());
+      setPrevValue("");
       setCurOperand("");
     }
   };
 
   const calculate = () => {
-    switch (curOperand) {
-      case "+":
-        setCurValue(+prevValue + +curValue);
-        break;
-      case "-":
-        setCurValue(+prevValue - +curValue);
-        break;
-      case "*":
-        setCurValue(+prevValue * +curValue);
-        break;
-      case "/":
-        setCurValue(+prevValue / +curValue);
-        break;
-      default:
-        break;
-    }
+    const firstNum = +prevValue;
+    const secondNum = +curValue;
 
-    setPrevValue("");
+    if (curOperand === "+") return firstNum + secondNum;
+    if (curOperand === "-") return firstNum - secondNum;
+    if (curOperand === "*") return firstNum * secondNum;
+    if (curOperand === "/") return firstNum / secondNum;
   };
 
   useEffect(() => {
-    if (curOperand !== "") {
-      setPrevValue(curValue);
-      setCurValue("");
+    if(curOperand) {
+      if(curValue) {
+        setPrevValue(curValue);
+        setCurValue("");
+      }
     }
   }, [curOperand]);
 
   useEffect(() => {
+    // any time these three values change, update what is displayed
     changeDisplay();
   }, [curValue, prevValue, curOperand]);
 
