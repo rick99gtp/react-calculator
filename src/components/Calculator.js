@@ -56,44 +56,46 @@ const Calculator = () => {
   };
 
   const operandHandler = (val) => {
-      if(curOperand === "") {
-        setCurOperand(val);
-      }
-      else {
-          calculate();
-          setCurValue("");
-      }
+    if (curOperand === "") {
+      setCurOperand(val);
+    } else {
+      calculate();
+      setCurValue("");
+    }
   };
 
   const equalsHandler = () => {
-    calculate();
-    setCurValue("");
-    setCurOperand("");
+    if (curOperand !== "") {
+      calculate();
+      setCurOperand("");
+    }
   };
 
   const calculate = () => {
     switch (curOperand) {
       case "+":
-        setPrevValue(+prevValue + +curValue);
+        setCurValue(+prevValue + +curValue);
         break;
       case "-":
-        setPrevValue(+prevValue - +curValue);
+        setCurValue(+prevValue - +curValue);
         break;
       case "*":
-        setPrevValue(+prevValue * +curValue);
+        setCurValue(+prevValue * +curValue);
         break;
       case "/":
-        setPrevValue(+prevValue / +curValue);
+        setCurValue(+prevValue / +curValue);
         break;
       default:
-        return;
+        break;
     }
+
+    setPrevValue("");
   };
 
   useEffect(() => {
-    calculate();
-    if(curOperand !== "") {
-        setCurValue("");
+    if (curOperand !== "") {
+      setPrevValue(curValue);
+      setCurValue("");
     }
   }, [curOperand]);
 
