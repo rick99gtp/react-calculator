@@ -26,15 +26,7 @@ const Calculator = () => {
     if (!curValue.includes(".")) setCurValue(curValue + ".");
   };
 
-  const numberHandler = (val) => {
-    if (curValue === "0") {
-      // replace number
-      setCurValue(val);
-    } else {
-      // add to end of curValue
-      setCurValue(curValue + val);
-    }
-  };
+  const numberHandler = val => curValue === "0" ? setCurValue(val) : setCurValue(curValue + val);
 
   const clearMemory = () => {
     setMemoryNumber("0");
@@ -47,6 +39,7 @@ const Calculator = () => {
   };
 
   const memoryHandler = (val) => {
+    // which button was pressed
     if (val === "MC") {
       clearMemory();
     } else if (val === "MS") {
@@ -61,18 +54,21 @@ const Calculator = () => {
   };
 
   const operandHandler = (val) => {
+    // if user clicks operand before equals
     if(prevValue && curOperand && curValue) {
       setPrevValue(calculate());
       setCurValue("");
       setCurOperand(val);
     }
+    // if user doesn't click the same operand
     else if (curOperand !== val) {
       setCurOperand(val);
     }
   };
 
   const equalsHandler = () => {
-    if (curOperand !== "" && curValue !== "") {
+    // if there is an operand and current value
+    if (curOperand && curValue) {
       setCurValue(calculate());
       setPrevValue("");
       setCurOperand("");
@@ -80,9 +76,11 @@ const Calculator = () => {
   };
 
   const calculate = () => {
+    // convert strings to numbers
     const firstNum = +prevValue;
     const secondNum = +curValue;
 
+    // return calculation
     if (curOperand === "+") return firstNum + secondNum;
     if (curOperand === "-") return firstNum - secondNum;
     if (curOperand === "*") return firstNum * secondNum;
@@ -90,6 +88,7 @@ const Calculator = () => {
   };
 
   useEffect(() => {
+    // do this only when an operand and current value exists
     if(curOperand) {
       if(curValue) {
         setPrevValue(curValue);

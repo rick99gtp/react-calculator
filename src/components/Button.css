@@ -5,6 +5,8 @@
   align-items: center;
   transition: 0.4s ease-in-out;
   cursor: pointer;
+  border-radius: 10px;
+  background-color: rgb(255, 249, 221);
 }
 
 .btn:nth-child(20) {
@@ -16,52 +18,8 @@
   grid-column: 5;
 }
 
-.btn:nth-child(n + 1):nth-child(-n + 5) {
-  background-color: red;
-}
-
-.btn:nth-child(n + 1):nth-child(-n + 5):hover {
-  background-color: yellow;
-}
-
 .btn:hover {
-  background-color: yellow;
-}
-
-.btn:nth-child(n + 6):nth-child(-n + 8),
-.btn:nth-child(n + 11):nth-child(-n + 13),
-.btn:nth-child(n + 16):nth-child(-n + 18),
-.btn:nth-child(20) {
-  background-color: green;
-}
-
-.btn:nth-child(n + 6):nth-child(-n + 8):hover,
-.btn:nth-child(n + 11):nth-child(-n + 13):hover,
-.btn:nth-child(n + 16):nth-child(-n + 18):hover,
-.btn:nth-child(20):hover {
-  background-color: yellow;
-}
-
-/* 
-.btn:nth-child(n + 6):nth-child(-n + 8),
-.btn:nth-child(n + 11):nth-child(-n + 13),
-.btn:nth-child(n + 16):nth-child(-n + 18),
-.btn:nth-child(20) {
   background-color: red;
+  color: #fff;
+  font-weight: bold;
 }
-
-.btn:nth-child(n + 1):nth-child(-n + 5) {
-  background-color: green;
-}
-
-.btn:nth-child(9),
-.btn:nth-child(14),
-.btn:nth-child(19),
-.btn:nth-child(22) {
-  background-color: pink;
-}
-
-.btn:hover ~ .btn {
-    background-color: blue;
-    color: #fff;
-} */
